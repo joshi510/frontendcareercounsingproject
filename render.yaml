@@ -1,0 +1,51 @@
+services:
+  # Backend API Service
+  - type: web
+    name: career-profiling-backend
+    env: node
+    plan: starter
+    buildCommand: cd backend-node && npm install
+    startCommand: cd backend-node && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: DEBUG
+        value: false
+
+  # Frontend Static Site
+  - type: web
+    name: career-profiling-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+
+databases:
+  # MySQL Database
+  - name: career-profiling-db
+    databaseName: career_profiling_db
+    user: career_profiling_user
+    plan: starter
+
