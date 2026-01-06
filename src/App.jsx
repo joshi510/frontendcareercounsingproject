@@ -7,6 +7,13 @@ import Login from './pages/Login';
 import StudentDashboard from './pages/dashboards/StudentDashboard';
 import CounsellorDashboard from './pages/dashboards/CounsellorDashboard';
 import AdminDashboard from './pages/dashboards/AdminDashboard';
+import StudentsList from './pages/admin/StudentsList';
+import AdminStudentResult from './pages/admin/StudentResult';
+import Analytics from './pages/admin/Analytics';
+import QuestionsList from './pages/admin/QuestionsList';
+import QuestionForm from './pages/admin/QuestionForm';
+import AddCounsellor from './pages/admin/AddCounsellor';
+import CounselorsList from './pages/admin/CounselorsList';
 import ResultPage from './pages/ResultPage';
 
 function LoadingFallback() {
@@ -59,6 +66,70 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ADMIN']}>
                     <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/students"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <StudentsList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/students/:studentId/result/:resultId"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <AdminStudentResult />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/analytics"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <Analytics />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/questions"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <QuestionsList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/questions/new"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <QuestionForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/questions/:id/edit"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <QuestionForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/counsellors/add"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <AddCounsellor />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/counselors"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <CounselorsList />
                   </ProtectedRoute>
                 }
               />

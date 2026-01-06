@@ -14,8 +14,12 @@ function ProtectedRoute({ children, allowedRoles = [] }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRoles.length > 0 && user && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/login" replace />;
+  if (allowedRoles.length > 0 && user) {
+    // Normalize COUNSELOR (single L) to COUNSELLOR (double L) for role checking
+    const userRole = user.role === 'COUNSELOR' ? 'COUNSELLOR' : user.role;
+    if (!allowedRoles.includes(userRole)) {
+      return <Navigate to="/login" replace />;
+    }
   }
 
   return children;

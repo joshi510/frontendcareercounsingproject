@@ -73,21 +73,23 @@ function SectionPerformanceChart({ sectionScores }) {
       </h2>
 
       {/* Chart */}
-      <div className="mb-6" style={{ width: '100%', height: '300px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-            <XAxis
-              dataKey="name"
-              angle={-45}
-              textAnchor="end"
-              height={100}
-              tick={{ fill: textColor, fontSize: 11 }}
-              axisLine={{ stroke: axisColor }}
-            />
+      <div className="mb-6 overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+        <div style={{ width: '100%', height: '300px', minWidth: '100%', minHeight: '300px' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 20, right: 10, left: 0, bottom: 60 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+              <XAxis
+                dataKey="name"
+                angle={-45}
+                textAnchor="end"
+                height={100}
+                tick={{ fill: textColor, fontSize: 10 }}
+                axisLine={{ stroke: axisColor }}
+                interval={0}
+              />
             <YAxis
               domain={[0, 100]}
               tick={{ fill: textColor, fontSize: 12 }}
@@ -119,8 +121,9 @@ function SectionPerformanceChart({ sectionScores }) {
                 />
               ))}
             </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Score Explanation */}
@@ -131,7 +134,7 @@ function SectionPerformanceChart({ sectionScores }) {
       </div>
 
       {/* Strength Indicators */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
           <div>

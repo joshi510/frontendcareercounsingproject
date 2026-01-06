@@ -60,33 +60,35 @@ function ResultHeader({ user, interpretation, onDownloadPDF, downloading }) {
       animate={{ opacity: 1, y: 0 }}
       className="bg-gradient-to-br from-white to-blue-50/50 dark:from-slate-800 dark:to-slate-900 rounded-2xl shadow-xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 mb-6 card-hover transition-colors duration-300"
     >
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Test Status: Completed</span>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse flex-shrink-0"></div>
+            <span className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">Test Status: Completed</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-2 truncate">
             {user?.full_name || 'Student'}
           </h1>
-          <div className="flex flex-wrap gap-3 mt-4">
-            <div className={`px-4 py-2 rounded-full text-sm font-semibold border ${getBadgeColor(interpretation.readiness_status)}`} title={interpretation.readiness_status}>
-              {getFriendlyReadinessLabel(interpretation.readiness_status)}
+          <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4">
+            <div className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border ${getBadgeColor(interpretation.readiness_status)}`} title={interpretation.readiness_status}>
+              <span className="hidden sm:inline">{getFriendlyReadinessLabel(interpretation.readiness_status)}</span>
+              <span className="sm:hidden">{interpretation.readiness_status}</span>
             </div>
-            <div className={`px-4 py-2 rounded-full text-sm font-semibold border ${getBadgeColor(interpretation.risk_level)}`} title={`Risk Level: ${interpretation.risk_level}`}>
-              {getFriendlyRiskLabel(interpretation.risk_level)}
+            <div className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border ${getBadgeColor(interpretation.risk_level)}`} title={`Risk Level: ${interpretation.risk_level}`}>
+              <span className="hidden sm:inline">{getFriendlyRiskLabel(interpretation.risk_level)}</span>
+              <span className="sm:hidden">{interpretation.risk_level}</span>
             </div>
           </div>
         </div>
         
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="text-center sm:text-right">
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Overall Score</p>
+        <div className="flex flex-row items-center justify-between sm:flex-col lg:flex-row sm:items-start lg:items-center gap-3 sm:gap-4">
+          <div className="text-left sm:text-center lg:text-right">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-1">Overall Score</p>
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 200 }}
-              className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent"
             >
               {score}%
             </motion.div>
@@ -97,19 +99,21 @@ function ResultHeader({ user, interpretation, onDownloadPDF, downloading }) {
             disabled={downloading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 btn-hover"
+            className="hidden sm:flex px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg sm:rounded-xl font-medium shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed items-center gap-2 btn-hover text-sm sm:text-base"
           >
             {downloading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Generating...
+                <span className="hidden lg:inline">Generating...</span>
+                <span className="lg:hidden">Generating...</span>
               </>
             ) : (
               <>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Download PDF Report
+                <span className="hidden lg:inline">Download PDF Report</span>
+                <span className="lg:hidden">Download PDF</span>
               </>
             )}
           </motion.button>

@@ -17,9 +17,9 @@ function StrengthsAndImprovements({ strengths, weaknesses }) {
       transition={{ delay: 0.15 }}
       className="mb-8"
     >
-      <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-6">Your Assessment Highlights</h2>
+      <h2 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-4 sm:mb-6">Your Assessment Highlights</h2>
       
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Strengths */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}

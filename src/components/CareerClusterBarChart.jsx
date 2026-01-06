@@ -21,16 +21,16 @@ function CareerClusterBarChart({ data }) {
     .sort((a, b) => b.value - a.value)
     .slice(0, 10); // Top 10 clusters
 
-  if (chartData.length === 0) {
+  if (!data || chartData.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-slate-500">
+      <div style={{ width: '100%', height: '300px' }} className="flex items-center justify-center text-slate-400 dark:text-slate-500">
         <p className="text-sm">No career cluster data available</p>
       </div>
     );
   }
 
   return (
-    <div style={{ width: '100%', height: '300px' }}>
+    <div style={{ width: '100%', height: '300px', minHeight: '300px' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

@@ -36,10 +36,10 @@ function ScoreSummary({ interpretation }) {
     >
       <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-6">Score Summary</h3>
       
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Circular Progress */}
-        <div className="flex flex-col items-center justify-center">
-          <div className="relative w-40 h-40" style={{ width: '160px', height: '160px' }}>
+        <div className="flex flex-col items-center justify-center order-1 md:order-none">
+          <div className="relative w-40 h-40 mx-auto" style={{ width: '160px', height: '160px', minWidth: '160px', minHeight: '160px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -76,7 +76,7 @@ function ScoreSummary({ interpretation }) {
         </div>
 
         {/* Strengths */}
-        <div className="flex-1">
+        <div className="flex-1 order-2 md:order-none">
           <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 mb-2 flex items-center">
             <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
             Key Strengths
@@ -91,15 +91,15 @@ function ScoreSummary({ interpretation }) {
                 transition={{ delay: idx * 0.1 }}
                 className="text-sm text-slate-700 dark:text-slate-300 flex items-start"
               >
-                <span className="text-green-500 mr-2 mt-0.5">•</span>
-                <span className="line-clamp-2">{strength}</span>
+                <span className="text-green-500 mr-2 mt-0.5 flex-shrink-0">•</span>
+                <span className="line-clamp-3">{strength}</span>
               </motion.li>
             ))}
           </ul>
         </div>
 
         {/* Improvement Areas */}
-        <div className="flex-1">
+        <div className="flex-1 order-3 md:order-none">
           <h4 className="text-sm font-semibold text-amber-700 dark:text-amber-400 mb-2 flex items-center">
             <span className="w-2 h-2 bg-amber-500 rounded-full mr-2"></span>
             Areas to Improve
@@ -114,8 +114,8 @@ function ScoreSummary({ interpretation }) {
                 transition={{ delay: idx * 0.1 }}
                 className="text-sm text-slate-700 dark:text-slate-300 flex items-start"
               >
-                <span className="text-amber-500 mr-2 mt-0.5">•</span>
-                <span className="line-clamp-2">{weakness}</span>
+                <span className="text-amber-500 mr-2 mt-0.5 flex-shrink-0">•</span>
+                <span className="line-clamp-3">{weakness}</span>
               </motion.li>
             ))}
           </ul>

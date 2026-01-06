@@ -291,7 +291,7 @@ function StudentDashboard() {
     }
     
     return (
-      <div className="h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300 flex flex-col overflow-hidden">
+      <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300 flex flex-col overflow-hidden" style={{ height: '100dvh', minHeight: '100dvh' }}>
         <div className="flex-shrink-0">
           <Navbar />
         </div>

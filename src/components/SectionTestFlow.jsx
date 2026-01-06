@@ -920,7 +920,7 @@ function SectionTestFlow({ attemptId, initialSection, onSectionComplete, onCompl
   return (
     <div className="h-full flex flex-col overflow-hidden max-w-6xl mx-auto w-full">
       {/* Section Header with Timer - Fixed at top */}
-      <div className="flex-shrink-0 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 mb-3 border border-slate-200 dark:border-slate-700">
+      <div className="flex-shrink-0 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 mb-3 border border-slate-200 dark:border-slate-700 safe-area-top">
         <div className="flex items-center justify-between mb-3">
           <div>
             <div className="flex items-center gap-3 mb-1">
@@ -1091,7 +1091,7 @@ function SectionTestFlow({ attemptId, initialSection, onSectionComplete, onCompl
 
       {/* Navigation Footer - Fixed at bottom */}
       {questions.length > 0 && (
-        <div className="flex-shrink-0 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 mt-3 border border-slate-200 dark:border-slate-700 z-10">
+        <div className="flex-shrink-0 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 mt-3 border border-slate-200 dark:border-slate-700 z-10 safe-area-bottom">
           {console.log('Rendering navigation footer. Questions:', questions.length, 'Current index:', currentQuestionIndex)}
           <div className="flex justify-between">
             <button

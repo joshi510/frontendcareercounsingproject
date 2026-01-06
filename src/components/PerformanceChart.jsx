@@ -11,6 +11,14 @@ import {
 } from 'recharts';
 
 function PerformanceChart({ data }) {
+  if (!data) {
+    return (
+      <div style={{ width: '100%', height: '250px' }} className="flex items-center justify-center text-slate-400 dark:text-slate-500">
+        <p className="text-sm">No data available</p>
+      </div>
+    );
+  }
+
   const isDark = document.documentElement.classList.contains('dark');
   const textColor = isDark ? '#94a3b8' : '#64748b';
   const gridColor = isDark ? '#475569' : '#e2e8f0';
@@ -19,14 +27,24 @@ function PerformanceChart({ data }) {
   const tooltipBorder = isDark ? '#334155' : '#e2e8f0';
 
   const chartData = [
-    { name: 'Strengths', value: data.strengths, fill: '#10b981' },
-    { name: 'Growth Areas', value: data.weaknesses, fill: '#f59e0b' },
-    { name: 'Career Clusters', value: data.careerClusters, fill: '#3b82f6' },
-    { name: 'Action Steps', value: data.actionPlanSteps, fill: '#8b5cf6' }
+    { name: 'Strengths', value: data.strengths || 0, fill: '#10b981' },
+    { name: 'Growth Areas', value: data.weaknesses || 0, fill: '#f59e0b' },
+    { name: 'Career Clusters', value: data.careerClusters || 0, fill: '#3b82f6' },
+    { name: 'Action Steps', value: data.actionPlanSteps || 0, fill: '#8b5cf6' }
   ];
 
+  const totalValue = chartData.reduce((sum, item) => sum + (item.value || 0), 0);
+
+  if (totalValue === 0) {
+    return (
+      <div style={{ width: '100%', height: '250px' }} className="flex items-center justify-center text-slate-400 dark:text-slate-500">
+        <p className="text-sm">No performance data available</p>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ width: '100%', height: '250px' }}>
+    <div style={{ width: '100%', height: '250px', minHeight: '250px' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />

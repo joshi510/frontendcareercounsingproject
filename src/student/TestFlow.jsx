@@ -77,10 +77,10 @@ function TestFlow() {
   const question = questions[currentQuestion];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Progress Bar */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-3xl mx-auto px-6 py-4">
+    <div className="flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50" style={{ height: '100dvh', minHeight: '100dvh' }}>
+      {/* Progress Bar - Fixed at top */}
+      <div className="flex-shrink-0 bg-white border-b border-slate-200 safe-area-top">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-600">
               Question {currentQuestion + 1} of {questions.length}
@@ -100,89 +100,95 @@ function TestFlow() {
         </div>
       </div>
 
-      {/* Question Content */}
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentQuestion}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-slate-200/60"
-          >
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-8 leading-relaxed">
-              {question.question_text}
-            </h2>
+      {/* Scrollable Question Content */}
+      <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 sm:pb-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentQuestion}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8 md:p-12 border border-slate-200/60"
+            >
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-900 mb-6 sm:mb-8 leading-relaxed">
+                {question.question_text}
+              </h2>
 
-            {question.question_type === "LIKERT_SCALE" && (
-              <div className="space-y-3">
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <motion.button
-                    key={value}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleAnswer(value.toString())}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                      selectedOption === value.toString()
-                        ? 'border-blue-600 bg-blue-50 shadow-md'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-900 font-medium">
-                        {likertLabels[value]}
-                      </span>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+              {question.question_type === "LIKERT_SCALE" && (
+                <div className="space-y-3">
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <motion.button
+                      key={value}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleAnswer(value.toString())}
+                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
                         selectedOption === value.toString()
-                          ? 'border-blue-600 bg-blue-600'
-                          : 'border-slate-300'
-                      }`}>
-                        {selectedOption === value.toString() && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="w-2 h-2 rounded-full bg-white"
-                          />
-                        )}
+                          ? 'border-blue-600 bg-blue-50 shadow-md'
+                          : 'border-slate-200 hover:border-slate-300 bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-900 font-medium text-sm sm:text-base">
+                          {likertLabels[value]}
+                        </span>
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                          selectedOption === value.toString()
+                            ? 'border-blue-600 bg-blue-600'
+                            : 'border-slate-300'
+                        }`}>
+                          {selectedOption === value.toString() && (
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="w-2 h-2 rounded-full bg-white"
+                            />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handlePrevious}
-            disabled={currentQuestion === 0}
-            className={`px-6 py-3 rounded-lg font-medium transition-all ${
-              currentQuestion === 0
-                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-300'
-            }`}
-          >
-            Previous
-          </motion.button>
+      {/* Sticky Footer with Navigation Buttons */}
+      <div className="flex-shrink-0 bg-white border-t border-slate-200 shadow-lg safe-area-bottom">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex justify-between gap-3 sm:gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handlePrevious}
+              disabled={currentQuestion === 0}
+              className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-lg font-medium transition-all text-sm sm:text-base ${
+                currentQuestion === 0
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-300'
+              }`}
+            >
+              Previous
+            </motion.button>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleNext}
-            disabled={!selectedOption}
-            className={`px-8 py-3 rounded-lg font-medium transition-all ${
-              selectedOption
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl'
-                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-            }`}
-          >
-            {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
-          </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleNext}
+              disabled={!selectedOption}
+              className={`flex-1 sm:flex-none px-6 sm:px-8 py-3 rounded-lg font-medium transition-all text-sm sm:text-base ${
+                selectedOption
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl'
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
+            </motion.button>
+          </div>
         </div>
       </div>
     </div>

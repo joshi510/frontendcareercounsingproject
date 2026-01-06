@@ -44,11 +44,11 @@ function WhatThisMeans({ readinessStatus, overallPercentage, careerDirection, re
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl shadow-lg p-6 border border-indigo-200 dark:border-indigo-800 mb-8 transition-colors duration-300"
+      className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-indigo-200 dark:border-indigo-800 mb-6 sm:mb-8 transition-colors duration-300"
     >
       <div className="flex items-center mb-4">
         <div className="w-3 h-3 bg-indigo-500 rounded-full mr-3"></div>
-        <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{message.title}</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">{message.title}</h2>
       </div>
       
       <div className="space-y-4">

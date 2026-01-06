@@ -19,8 +19,8 @@ function SkillReadinessChart({ interpretation }) {
       transition={{ delay: 0.2 }}
       className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 card-hover transition-colors duration-300"
     >
-      <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-6">Skill Readiness Map</h3>
-      <div className="h-64">
+      <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4 sm:mb-6">Skill Readiness Map</h3>
+      <div className="w-full" style={{ height: '280px', minHeight: '280px' }}>
         <RadarChart data={skillData} />
       </div>
     </motion.div>

@@ -10,6 +10,14 @@ import {
 } from 'recharts';
 
 function RadarChartComponent({ data }) {
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    return (
+      <div style={{ width: '100%', height: '250px' }} className="flex items-center justify-center text-slate-400 dark:text-slate-500">
+        <p className="text-sm">No data available</p>
+      </div>
+    );
+  }
+
   const isDark = document.documentElement.classList.contains('dark');
   const textColor = isDark ? '#94a3b8' : '#64748b';
   const gridColor = isDark ? '#475569' : '#e2e8f0';
@@ -17,7 +25,7 @@ function RadarChartComponent({ data }) {
   const tooltipBorder = isDark ? '#334155' : '#e2e8f0';
 
   return (
-    <div style={{ width: '100%', height: '250px' }}>
+    <div style={{ width: '100%', height: '250px', minHeight: '250px' }}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
         <PolarGrid stroke={gridColor} />

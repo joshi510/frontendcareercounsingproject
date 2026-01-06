@@ -41,7 +41,7 @@ function Login() {
       if (user) {
         if (user.role === 'STUDENT') {
           navigate('/student');
-        } else if (user.role === 'COUNSELLOR') {
+        } else if (user.role === 'COUNSELLOR' || user.role === 'COUNSELOR') {
           navigate('/counsellor');
         } else if (user.role === 'ADMIN') {
           navigate('/admin');

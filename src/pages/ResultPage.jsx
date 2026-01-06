@@ -25,6 +25,7 @@ import AlertModal from '../components/AlertModal';
 import Toast from '../components/Toast';
 import { useAlert } from '../hooks/useAlert';
 import { generatePDF } from '../utils/pdfGenerator';
+import ResultPDF from '../components/ResultPDF';
 
 function ResultPage() {
   const { attemptId } = useParams();
@@ -39,6 +40,7 @@ function ResultPage() {
   const [error, setError] = useState('');
   const [downloading, setDownloading] = useState(false);
   const reportRef = useRef(null);
+  const pdfRef = useRef(null);
   const { modalState, toastState, showModal, showToast, closeToast } = useAlert();
 
   useEffect(() => {
@@ -83,11 +85,11 @@ function ResultPage() {
   };
 
   const handleDownloadPDF = async () => {
-    if (!reportRef.current) return;
+    if (!pdfRef.current) return;
     
     try {
       setDownloading(true);
-      await generatePDF(reportRef.current, user, interpretation, counsellorNote);
+      await generatePDF(pdfRef.current, user, interpretation, counsellorNote);
     } catch (err) {
       setError('Failed to generate PDF. Please try again.');
       console.error('PDF generation error:', err);
@@ -171,9 +173,9 @@ function ResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300 pb-20 sm:pb-6 overflow-x-hidden">
       <Navbar />
-      <div className="max-w-7xl mx-auto py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto py-4 sm:py-6 lg:py-12 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
         {/* Result Header */}
         <ResultHeader
           user={user}
@@ -182,8 +184,55 @@ function ResultPage() {
           downloading={downloading}
         />
 
-        {/* Report Content - Hidden for PDF generation */}
-        <div ref={reportRef} className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-slate-200/60 dark:border-slate-700 print:shadow-none print:border-none transition-colors duration-300 space-y-8">
+        {/* Sticky Download Button for Mobile */}
+        <div className="fixed bottom-4 left-4 right-4 z-50 sm:hidden">
+          <motion.button
+            onClick={handleDownloadPDF}
+            disabled={downloading}
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {downloading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span>Generating PDF...</span>
+              </>
+            ) : (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Download PDF</span>
+              </>
+            )}
+          </motion.button>
+        </div>
+
+        {/* PDF Component - Hidden for PDF generation */}
+        <div 
+          ref={pdfRef}
+          id="pdf-container"
+          style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '800px',
+            zIndex: -1,
+            opacity: 0,
+            pointerEvents: 'none'
+          }}
+        >
+          <ResultPDF 
+            interpretation={interpretation} 
+            counsellorNote={counsellorNote}
+            user={user}
+          />
+        </div>
+
+        {/* Report Content - Visible UI */}
+        <div ref={reportRef} className="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-10 border border-slate-200/60 dark:border-slate-700 print:shadow-none print:border-none transition-colors duration-300 space-y-6 sm:space-y-8 overflow-x-hidden">
           {/* Counsellor Summary - At the very top */}
           {interpretation.counsellor_summary && (
             <CounsellorSummary counsellorSummary={interpretation.counsellor_summary} />
@@ -346,15 +395,15 @@ function ResultPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700"
+            className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-700 hidden sm:block"
           >
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <motion.button
                 onClick={handleDownloadPDF}
                 disabled={downloading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 {downloading ? (
                   <>
@@ -378,7 +427,7 @@ function ResultPage() {
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -398,7 +447,7 @@ function ResultPage() {
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg font-semibold hover:bg-slate-300 dark:hover:bg-slate-600 transition-all flex items-center justify-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg font-semibold hover:bg-slate-300 dark:hover:bg-slate-600 transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
